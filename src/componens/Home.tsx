@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { doc, setDoc, getDocs, collection, addDoc, updateDoc } from "firebase/firestore"; 
 
 
 function Home({ videoID, channel}) {
@@ -16,6 +18,7 @@ function Home({ videoID, channel}) {
     const search = '?x=10&y=10' // value of window.location.search
     const params = new URLSearchParams(search);
     console.log("params",params.get('code') );
+    const userCollectionRef = collection(db,"SPAD");
 
 
     useEffect(  () => {
@@ -27,6 +30,8 @@ function Home({ videoID, channel}) {
       }  
 
       getTitle();
+
+
 
         },[videoTitle,videoID])
     
@@ -99,8 +104,29 @@ function Home({ videoID, channel}) {
         const response = await axios.post(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`,body, header)
         console.log(response);
       }
- 
-    
+
+      // get user
+
+      const getUser = async ( ) => {
+        const data = await getDocs(userCollectionRef);
+        data.docs.map(doc => {
+          console.log('LOG 1', doc.data());
+      })
+    }
+
+      // Create a  user
+
+      const createUser = async() => {
+        await addDoc(userCollectionRef, { name: "Tanmay", email:"mail-1"})
+    }
+
+    // Update User
+      // const updateUser = async(id) => {
+      //   const userDoc = doc(db, "SPAD", id)
+      //   await updateDoc(userDoc, {collectionID: "id"});
+      // }
+
+      
   return (
     <div>
       <div className="form-control w-full max-w-xs">
@@ -132,6 +158,10 @@ function Home({ videoID, channel}) {
 
 
         <button className="btn" onClick={ () => {addTrack();}}> Add Track</button>
+        <button className="btn" onClick={ () => {getUser();}}> Get User</button>
+
+        <button className="btn" onClick={ () => {createUser();}}> Create User</button>
+
 
 
 
