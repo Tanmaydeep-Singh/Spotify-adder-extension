@@ -1,16 +1,25 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function LoginForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const auth = getAuth();
 
   const checkUser = async (e) => {
     e.preventDefault();
-    console.log("CHECKING FOR USER");
-    console.log(email + password);
 
-    props.onData(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        if (user) props.onData(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
