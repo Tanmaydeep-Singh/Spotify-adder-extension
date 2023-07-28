@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-function LoginForm() {
+function LoginForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -9,6 +9,8 @@ function LoginForm() {
     e.preventDefault();
     console.log("CHECKING FOR USER");
     console.log(email + password);
+
+    props.onData(true);
   };
 
   return (

@@ -7,7 +7,7 @@ import Profile from "./pages/profile";
 import LoginForm from "./componens/LoginForm";
 
 function App() {
-  const [isLogin, setIsLogin] = useState();
+  const [isLogin, setIsLogin] = useState(false);
   const [displayInfo, setDisplayInfo] = useState(false);
   const [videoID, setVideoID] = useState("loading...");
   const [videoChannel, setVideoChannel] = useState("loading...");
@@ -56,8 +56,7 @@ function App() {
             {isLogin ? (
               <Home videoID={videoID} channel={"coldplay"} />
             ) : (
-              <LoginForm />
-             
+              <LoginForm  onData={ (sign) => { setIsLogin(sign)}  } />
             )}
           </div>
         </>
