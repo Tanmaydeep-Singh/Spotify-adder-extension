@@ -15,9 +15,9 @@ function Home({ videoID, channel}) {
     const [playlistID, setPlaylistID] = useState("");
 
     
-    const search = '?x=10&y=10' // value of window.location.search
-    const params = new URLSearchParams(search);
-    console.log("params",params.get('code') );
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeValue = urlParams.get("code") || ""; 
+    console.log("params",codeValue );
     const userCollectionRef = collection(db,"SPAD");
 
 
@@ -34,20 +34,7 @@ function Home({ videoID, channel}) {
 
 
         },[videoTitle,videoID])
-    
-      const getUserID = async()=> {
-        const header = {
-          headers:
-          {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer BQBch6wXR4PB8zN-ZDHxQsn3hqF8kEHt2DRsz6NtqJTzD4l1PTyBs71-dHIllft2GJLLPzljjpKQA3S6orsHb6IYn88JbIwChTUckWl2MlxFLvn7auQcS-2EbdtjCOJOsKzQqfdCG1x2vhsPvGUNEiHJqq2745E1QhQQkPNypmsno6TO-7ZNBh12Yr1gtNgML7Ml-nXvaYqORWU641ULDTux9z_kv3SeP7s_MmEyiFOdE2-iHTeFHv2EHiJCC55RmvfuDoEfkPVKWikk'
-          }
-        }
-
-        const { data } = await axios.get('https://api.spotify.com/v1/me',header) 
-        console.log("USER ID", data.id);
-        setUserID(data.id);
-      }
+   
       
 
       const getSpotifyID = async()=> {
@@ -64,27 +51,7 @@ function Home({ videoID, channel}) {
         setTrackID(trackID);
       }
     
-      const createAPlaylist = async()=> {
-
-        const body = {
-          "name": "Spotify Adder",
-          "description": "To add music to spotify from youtube",
-          "public": false
-      }
-      const header = {
-        headers:
-        {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer BQBch6wXR4PB8zN-ZDHxQsn3hqF8kEHt2DRsz6NtqJTzD4l1PTyBs71-dHIllft2GJLLPzljjpKQA3S6orsHb6IYn88JbIwChTUckWl2MlxFLvn7auQcS-2EbdtjCOJOsKzQqfdCG1x2vhsPvGUNEiHJqq2745E1QhQQkPNypmsno6TO-7ZNBh12Yr1gtNgML7Ml-nXvaYqORWU641ULDTux9z_kv3SeP7s_MmEyiFOdE2-iHTeFHv2EHiJCC55RmvfuDoEfkPVKWikk'
-        }
-      }
-
-      const { data } = await axios.post(`https://api.spotify.com/v1/users/${userID}/playlists`,body, header)
-      console.log(data.id)
-      setPlaylistID(data.id);
-
-      }
-
+   
       const addTrack = async()=> {
 
         const body = {
@@ -116,9 +83,7 @@ function Home({ videoID, channel}) {
 
       // Create a  user
 
-      const createUser = async() => {
-        await addDoc(userCollectionRef, { name: "Tanmay", email:"mail-1"})
-    }
+   
 
     // Update User
       // const updateUser = async(id) => {
@@ -146,21 +111,17 @@ function Home({ videoID, channel}) {
         <button className="btn" onClick={ () => {}}>Search</button>
         </form>
         <p>Title: {videoTitle}</p>
-        <button className="btn" onClick={ () => {getUserID();}}> get User ID</button>
-        <p>{userID}</p>
-
+       
 
         <button className="btn" onClick={ () => {getSpotifyID();}}> get spotify ID</button>
         <p>{trackID}</p>
 
-        <button className="btn" onClick={ () => {createAPlaylist();}}> Create A playlist</button>
-        <p>{playlistID}</p>
+       
 
 
         <button className="btn" onClick={ () => {addTrack();}}> Add Track</button>
         <button className="btn" onClick={ () => {getUser();}}> Get User</button>
 
-        <button className="btn" onClick={ () => {createUser();}}> Create User</button>
 
 
 
