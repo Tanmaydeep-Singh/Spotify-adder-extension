@@ -29,7 +29,7 @@ function Home({ videoID, body}) {
       const  { data }   = await axios.get(url);
       if(data.items[0])
       {
-      setChannel(data.items[0].snippet.channelTitle.toString() || "none"); 
+      const currentChannel = data.items[0].snippet.channelTitle.toString();
       const currentTitle = data.items[0].snippet.localized.title.toString();
       if( currentTitle.includes('-'))
       { 
@@ -49,7 +49,17 @@ function Home({ videoID, body}) {
       {
         setVideoTitle( currentTitle || "none");
       }
+
+      if(currentChannel.includes("-"))
+      {
+        const channelWithoutDash = currentChannel.split('-')[0]
+        setChannel(channelWithoutDash);
+      } 
+      else
+      {
+        setChannel(currentChannel)
       }
+    }
     }
       getTitle();
 
