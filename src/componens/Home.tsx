@@ -30,9 +30,6 @@ function Home({ videoID, channel}) {
       }  
 
       getTitle();
-
-
-
         },[videoTitle,videoID])
    
       

@@ -87,6 +87,7 @@ function Profile({ code }) {
     createUserWithEmailAndPassword(auth, email, password)
       .then( async(userCredential) => {
         const user = userCredential.user;
+
         const userCollectionRef = doc(db, "SPAD",user.uid);
 
         const response = await setDoc(userCollectionRef, {

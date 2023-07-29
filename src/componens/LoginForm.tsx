@@ -1,20 +1,63 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { db } from "../firebase";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 function LoginForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+  const [userID, setUserID] = useState("");
+  const [playlistID, setPlaylistID] = useState("");
   const auth = getAuth();
+
+  const getAccessToken = async (refreshToken) => {
+    console.log("REFERESHTOKEN",refreshToken);
+
+     const header = {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ZDhhZmI4NWNiOGE0NDNlYmFmN2E2Njg0Y2E0MzZjN2I6NTAzOTIwZWJmOGJjNDVlODg1NGY0MjM4NDhmZmEwZTg=`,
+          },
+        };
+
+    const body = {
+      "refresh_token": refreshToken,
+      "grant_type":"refresh_token"
+    };
+    const response = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      body,
+      header
+    );
+    console.log("RESPONSE", response);
+
+    if( response.status)
+    {
+      props.onData(true);
+    }
+  };
 
   const checkUser = async (e) => {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        if (user) props.onData(true);
+        console.log("user ID", user.uid);
+
+        const docRef = doc(db, "SPAD", user.uid);
+        const docSnap = await getDoc(docRef);
+        const userData = docSnap.data();
+
+        if (userData) {
+          console.log("userData", userData);
+          console.log("userData", userData.refreshToken);
+          setRefreshToken(userData.refreshToken);
+          getAccessToken(userData.refreshToken);
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
