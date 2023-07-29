@@ -6,10 +6,11 @@ import { db } from "../firebase";
 import { doc, setDoc, getDocs, collection, addDoc, updateDoc } from "firebase/firestore"; 
 
 
-function Home({ videoID, channel}) {
+function Home({ videoID, channel, body}) {
     const [subject,setSubject] = useState("");
     const [videoTitle, setVideoTitle] = useState("Sparks");
     const [code,setCode] = useState("codeNotFound");
+    const [accessToken, setAccessToken] = useState("");
     const [userID, setUserID] = useState("");
     const [trackID, setTrackID] = useState("");
     const [playlistID, setPlaylistID] = useState("");
@@ -23,14 +24,18 @@ function Home({ videoID, channel}) {
 
     useEffect(  () => {
       const getTitle = async () => {
-        const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${process.env.REACT_APP_YOUTUBE_API}&part=snippet`;
+      const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${process.env.REACT_APP_YOUTUBE_API}&part=snippet`;
       const  { data }   = await axios.get(url);
       if(data.items[0])
       setVideoTitle(data.items[0].snippet.localized.title.toString() || "none");
       }  
 
+      setAccessToken(body.accessToken);
+      setUserID(body.userID);
+      setPlaylistID(body.playlistID);
+
       getTitle();
-        },[videoTitle,videoID])
+        },[videoTitle,videoID,accessToken,userID,playlistID])
    
       
 
@@ -39,7 +44,7 @@ function Home({ videoID, channel}) {
           headers:
           {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer BQBch6wXR4PB8zN-ZDHxQsn3hqF8kEHt2DRsz6NtqJTzD4l1PTyBs71-dHIllft2GJLLPzljjpKQA3S6orsHb6IYn88JbIwChTUckWl2MlxFLvn7auQcS-2EbdtjCOJOsKzQqfdCG1x2vhsPvGUNEiHJqq2745E1QhQQkPNypmsno6TO-7ZNBh12Yr1gtNgML7Ml-nXvaYqORWU641ULDTux9z_kv3SeP7s_MmEyiFOdE2-iHTeFHv2EHiJCC55RmvfuDoEfkPVKWikk'
+            'Authorization': `Bearer ${accessToken}`
           }
         }
         const { data } = await axios.get(`https://api.spotify.com/v1/search?q=track:${videoTitle}%20artist:${channel}&type=track`, header )
@@ -61,7 +66,7 @@ function Home({ videoID, channel}) {
         headers:
         {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer BQBch6wXR4PB8zN-ZDHxQsn3hqF8kEHt2DRsz6NtqJTzD4l1PTyBs71-dHIllft2GJLLPzljjpKQA3S6orsHb6IYn88JbIwChTUckWl2MlxFLvn7auQcS-2EbdtjCOJOsKzQqfdCG1x2vhsPvGUNEiHJqq2745E1QhQQkPNypmsno6TO-7ZNBh12Yr1gtNgML7Ml-nXvaYqORWU641ULDTux9z_kv3SeP7s_MmEyiFOdE2-iHTeFHv2EHiJCC55RmvfuDoEfkPVKWikk'
+          'Authorization': `Bearer ${accessToken}`
         }
       }
 
@@ -69,17 +74,9 @@ function Home({ videoID, channel}) {
         console.log(response);
       }
 
-      // get user
+      
 
-      const getUser = async ( ) => {
-        const data = await getDocs(userCollectionRef);
-        data.docs.map(doc => {
-          console.log('LOG 1', doc.data());
-      })
-    }
-
-      // Create a  user
-
+      
    
 
     // Update User
@@ -105,6 +102,7 @@ function Home({ videoID, channel}) {
     
           
     />
+    <h1>{accessToken}</h1>
         <button className="btn" onClick={ () => {}}>Search</button>
         </form>
         <p>Title: {videoTitle}</p>
@@ -115,9 +113,7 @@ function Home({ videoID, channel}) {
 
        
 
-
         <button className="btn" onClick={ () => {addTrack();}}> Add Track</button>
-        <button className="btn" onClick={ () => {getUser();}}> Get User</button>
 
 
 

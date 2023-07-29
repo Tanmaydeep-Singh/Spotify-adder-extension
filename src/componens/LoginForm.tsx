@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "../firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
@@ -8,13 +8,31 @@ function LoginForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-  const [accessToken, setAccessToken] = useState("");
+  const [accessToken,setAccessToken] = useState("");
   const [userID, setUserID] = useState("");
   const [playlistID, setPlaylistID] = useState("");
   const auth = getAuth();
 
+  useEffect( () => {
+
+    if( userID !== "" && accessToken !== "")
+    {
+      const body = 
+      {
+        "status": true,
+        "accessToken": accessToken,
+        "userID": userID,
+        "playlistID": playlistID
+      }
+      console.log("body",body)
+  
+      props.onData(body);
+    
+    }
+    
+  },[accessToken !== "",userID !== "" ,playlistID !== "" ])
+
   const getAccessToken = async (refreshToken) => {
-    console.log("REFERESHTOKEN",refreshToken);
 
      const header = {
           headers: {
@@ -27,17 +45,13 @@ function LoginForm(props) {
       "refresh_token": refreshToken,
       "grant_type":"refresh_token"
     };
-    const response = await axios.post(
+    const { data } = await axios.post(
       "https://accounts.spotify.com/api/token",
       body,
       header
     );
-    console.log("RESPONSE", response);
-
-    if( response.status)
-    {
-      props.onData(true);
-    }
+    console.log("RESPONSE", data.access_token);
+    setAccessToken(data.access_token);
   };
 
   const checkUser = async (e) => {
@@ -55,6 +69,8 @@ function LoginForm(props) {
         if (userData) {
           console.log("userData", userData);
           console.log("userData", userData.refreshToken);
+          setPlaylistID(userData.playlistID);
+          setUserID(userData.userID);
           setRefreshToken(userData.refreshToken);
           getAccessToken(userData.refreshToken);
         }
