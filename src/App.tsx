@@ -5,6 +5,7 @@ import DisplayInfo from "./componens/DisplayInfo";
 import React from "react";
 import Profile from "./pages/profile";
 import LoginForm from "./componens/LoginForm";
+import { channel } from "diagnostics_channel";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -55,7 +56,7 @@ function App() {
             </h1>
             {displayInfo ? <DisplayInfo /> : <></>}
             {isLogin ? (
-              <Home videoID={videoID} channel={"coldplay"} body={body} />
+              <Home videoID={videoID} body={body} />
             ) : (
               <LoginForm  onData={ ( body ) => { setIsLogin(body.status); setBody(body);  console.log("ACCCCCCCCCTK",body.accessToken)}  } />
             )}

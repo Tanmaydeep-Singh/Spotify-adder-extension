@@ -6,10 +6,11 @@ import { db } from "../firebase";
 import { doc, setDoc, getDocs, collection, addDoc, updateDoc } from "firebase/firestore"; 
 
 
-function Home({ videoID, channel, body}) {
+function Home({ videoID, body}) {
     const [subject,setSubject] = useState("");
-    const [videoTitle, setVideoTitle] = useState("Sparks");
+    const [videoTitle, setVideoTitle] = useState("");
     const [code,setCode] = useState("codeNotFound");
+    const [channel,setChannel] = useState("");
     const [accessToken, setAccessToken] = useState("");
     const [userID, setUserID] = useState("");
     const [trackID, setTrackID] = useState("");
@@ -27,14 +28,36 @@ function Home({ videoID, channel, body}) {
       const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${process.env.REACT_APP_YOUTUBE_API}&part=snippet`;
       const  { data }   = await axios.get(url);
       if(data.items[0])
-      setVideoTitle(data.items[0].snippet.localized.title.toString() || "none");
-      }  
+      {
+      setChannel(data.items[0].snippet.channelTitle.toString() || "none"); 
+      const currentTitle = data.items[0].snippet.localized.title.toString();
+      if( currentTitle.includes('-'))
+      { 
+        const title  = currentTitle.split("-")[1];
 
+        if( title.includes("("))
+        {
+          const titleWithoutParanthesis = title.split("(")[0];
+          setVideoTitle(titleWithoutParanthesis);
+        }
+        else
+        {
+          setVideoTitle( title || "none");
+        }
+      }
+      else
+      {
+        setVideoTitle( currentTitle || "none");
+      }
+      }
+    }
+      getTitle();
+
+      
       setAccessToken(body.accessToken);
       setUserID(body.userID);
       setPlaylistID(body.playlistID);
-
-      getTitle();
+    
         },[videoTitle,videoID,accessToken,userID,playlistID])
    
       
@@ -48,6 +71,7 @@ function Home({ videoID, channel, body}) {
           }
         }
         const { data } = await axios.get(`https://api.spotify.com/v1/search?q=track:${videoTitle}%20artist:${channel}&type=track`, header )
+        console.log(`https://api.spotify.com/v1/search?q=track:${videoTitle}%20artist:${channel}&type=track`)
         const arr =data.tracks.items;
         const trackID = arr[ arr.length - 1].id
         setTrackID(trackID);
@@ -106,6 +130,8 @@ function Home({ videoID, channel, body}) {
         <button className="btn" onClick={ () => {}}>Search</button>
         </form>
         <p>Title: {videoTitle}</p>
+        <p>Channel: {channel}</p>
+
        
 
         <button className="btn" onClick={ () => {getSpotifyID();}}> get spotify ID</button>
