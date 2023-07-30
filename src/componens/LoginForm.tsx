@@ -82,10 +82,8 @@ function LoginForm(props) {
   };
 
   return (
-    <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
-      <h1 className="text-3xl font-semibold text-center text-purple-700">
-        Login
-      </h1>
+    <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg relative top-[-60px]">
+      
       <form className="">
         <div>
           <label className="label">
@@ -94,7 +92,7 @@ function LoginForm(props) {
           <input
             type="text"
             placeholder="Email Address"
-            className="w-full input input-bordered input-primary bg-[#ffffff]"
+            className="w-full input input-bordered input-primary bg-[#E2F6CA]"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -108,7 +106,7 @@ function LoginForm(props) {
           <input
             type="password"
             placeholder="Enter Password"
-            className="w-full input input-bordered input-primary bg-[#ffffff]"
+            className="w-full input input-bordered input-primary bg-[#E2F6CA]"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -123,7 +121,7 @@ function LoginForm(props) {
         </a>
         <div>
           <button
-            className="btn"
+            className="btn  bg-[#E87121] text-[#000000] hover:bg-[#E87121]"
             onClick={(e) => {
               checkUser(e);
             }}
@@ -138,7 +136,7 @@ function LoginForm(props) {
               "https://accounts.spotify.com/authorize?response_type=code&client_id=d8afb85cb8a443ebaf7a6684ca436c7b&scope=user-read-private user-read-email playlist-modify-public playlist-modify-private&redirect_uri=http://localhost:3000/"
             }
             target="_blank"
-            className="btn"
+            className="btn  bg-[#E87121] text-[#000000] hover:bg-[#E87121] "
           >
             {" "}
             Signup

@@ -122,36 +122,22 @@ function Home({ videoID, body}) {
       
   return (
     <div>
-      <div className="form-control w-full max-w-xs">
-        <form>  
-        <label className="label">
-          <span className="label-text">Search</span>
-        </label>
-        <input
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs text-[#ffffff]"
-          value={subject}
-          onChange={ (e:any) => { setSubject(e.target.value); }}
-    
-          
-    />
-    <h1>{accessToken}</h1>
-        <button className="btn" onClick={ () => {}}>Search</button>
-        </form>
+      <div className="form-control ">
         <p>Title: {videoTitle}</p>
         <p>Channel: {channel}</p>
 
        
+       <div>
 
         <button className="btn" onClick={ () => {getSpotifyID();}}> get spotify ID</button>
         <p>{trackID}</p>
 
        
 
-        <button className="btn" onClick={ () => {addTrack();}}> Add Track</button>
+        <button className="btn bg-[#E87121] text-[#000000]" onClick={ () => {addTrack();}}> Add Track</button>
+        
 
-
+        </div>
 
 
 

@@ -2,9 +2,9 @@
   "short_name": "Spotify-adder",
   "name": "Spotify Adder",
   "icons": {
-    "16": "favicon.ico",
-    "48": "logo192.png",
-   "128": "logo512.png"
+    "16": "Logo2.png",
+    "48": "Logo2.png",
+   "128": "Logo2.png"
   },
   "permissions": [
     "activeTab",
@@ -13,7 +13,7 @@
     "tabs"
  ],
   "manifest_version": 3,
-  "version": "0.0.1",
+  "version": "1.0.1",
   "action": {
     "default_popup": "index.html",
     "default_title": "Hello"

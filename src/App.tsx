@@ -5,7 +5,7 @@ import DisplayInfo from "./componens/DisplayInfo";
 import React from "react";
 import Profile from "./pages/profile";
 import LoginForm from "./componens/LoginForm";
-import { channel } from "diagnostics_channel";
+import logo from "./assets/Artboard 1.png";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -41,20 +41,20 @@ function App() {
         <Profile code={code} />
       ) : (
         <>
-          <div className=" bg-base w-[320px] h-[480px] rounded-lg text-center text-[30px] font-semibold text-[#000000]  ">
-            <h1 className=" inline-block">
-              Spotify adder{" "}
+          <div className=" bg-base w-[320px] h-[480px] rounded-lg text-center text-[30px] font-semibold text-text  ">
+            <div className=" inline-block">
+              <img src={logo} alt="logo"  />
               <span>
                 {" "}
                 <GrCircleInformation
-                  className="relative right-[-40px] inline-block w-4 h-4"
+                  className="relative right-[-130px] top-[-70px] inline-block w-4 h-4"
                   onClick={() => {
                     setDisplayInfo(!displayInfo);
                   }}
                 />
               </span>
-            </h1>
-            {displayInfo ? <DisplayInfo /> : <></>}
+            </div>
+            {displayInfo ? <DisplayInfo onData={ (body) => {setDisplayInfo(body.status)}} /> : <></>}
             {isLogin ? (
               <Home videoID={videoID} body={body} />
             ) : (
