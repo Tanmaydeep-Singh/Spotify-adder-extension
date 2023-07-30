@@ -86,10 +86,10 @@ function Profile({ code }) {
     e.preventDefault();
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then( async(userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
 
-        const userCollectionRef = doc(db, "SPAD",user.uid);
+        const userCollectionRef = doc(db, "SPAD", user.uid);
 
         const response = await setDoc(userCollectionRef, {
           name: name,
@@ -97,23 +97,24 @@ function Profile({ code }) {
           refreshToken: refreshToken,
           userID: userID,
           playlistID: playlistID,
-        },);
-    
+        });
+
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-
-  
   };
 
   return (
     <div className="h-screen w-full bg-base ">
-                    <img src={logo} alt="logo"  />
+      <img src={logo} alt="logo" />
+
+
+    
 
       <div className="w-full p-6 m-auto bg-white rounded-md  ring-gray-800/50 lg:max-w-xl">
-          <h1 className="text-3xl font-semibold text-center text-gray-700 text-[#E87121] ">
+        <h1 className="text-3xl font-semibold text-center text-gray-700 text-[#E87121] ">
           SIGNUP
         </h1>
         <form className="space-y-4">
