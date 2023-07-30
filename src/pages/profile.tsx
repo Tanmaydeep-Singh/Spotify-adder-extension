@@ -3,6 +3,7 @@ import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import logo from "./../assets/Artboard 1.png";
 
 function Profile({ code }) {
   // States
@@ -108,11 +109,11 @@ function Profile({ code }) {
   };
 
   return (
-    <div className="h-full w-full bg-base ">
-      Profile
-      <p className=" w-[100px] overflow-clip">{code}</p>
+    <div className="h-screen w-full bg-base ">
+                    <img src={logo} alt="logo"  />
+
       <div className="w-full p-6 m-auto bg-white rounded-md  ring-gray-800/50 lg:max-w-xl">
-        <h1 className="text-3xl font-semibold text-center text-gray-700">
+          <h1 className="text-3xl font-semibold text-center text-gray-700 text-[#E87121] ">
           SIGNUP
         </h1>
         <form className="space-y-4">
@@ -161,7 +162,7 @@ function Profile({ code }) {
 
           <div>
             <button
-              className="btn btn-block"
+              className="btn btn-block  bg-[#E87121] text-[#000000] hover:bg-[#E87121]"
               onClick={(e) => {
                 submitSignupForm(e);
               }}

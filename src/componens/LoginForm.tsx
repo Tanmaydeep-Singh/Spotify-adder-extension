@@ -82,7 +82,7 @@ function LoginForm(props) {
   };
 
   return (
-    <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg relative top-[-60px]">
+    <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg relative top-[-60px] text-[22px] my-10">
       
       <form className="">
         <div>
@@ -92,7 +92,7 @@ function LoginForm(props) {
           <input
             type="text"
             placeholder="Email Address"
-            className="w-full input input-bordered input-primary bg-[#E2F6CA]"
+            className="w-full input input-bordered input-primary bg-[#ffffff]"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -106,7 +106,7 @@ function LoginForm(props) {
           <input
             type="password"
             placeholder="Enter Password"
-            className="w-full input input-bordered input-primary bg-[#E2F6CA]"
+            className="w-full input input-bordered input-primary bg-[#ffffff]"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -136,7 +136,7 @@ function LoginForm(props) {
               "https://accounts.spotify.com/authorize?response_type=code&client_id=d8afb85cb8a443ebaf7a6684ca436c7b&scope=user-read-private user-read-email playlist-modify-public playlist-modify-private&redirect_uri=http://localhost:3000/"
             }
             target="_blank"
-            className="btn  bg-[#E87121] text-[#000000] hover:bg-[#E87121] "
+            className="btn  bg-[#E87121] text-[#000000] hover:bg-[#E87121] m-2"
           >
             {" "}
             Signup
